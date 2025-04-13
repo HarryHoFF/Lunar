@@ -15,7 +15,12 @@ export default function App() {
   const [error, setError] = useState('')
   const [balance, setBalance] = useState(8420.75)
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
- const [transactions, setTransactions] = useState<Transaction[]>([
+const [transactions, setTransactions] = useState<Transaction[]>([
+  // ⬇ Deine neuen eingehenden Einträge (kann auch unten sein)
+  { title: 'Carbis Food', date: '2025-04-04', amount: 8340, direction: 'in' },
+  { title: 'Haderslev Kommune', date: '2025-04-02', amount: 2000, direction: 'in' },
+
+  // ⬇ Alle bisherigen Ausgaben (Netto, Rema, McD usw.)
   { title: 'Netto', date: '2025-03-18', amount: 156.79, direction: 'out' },
   { title: 'Netto', date: '2025-03-27', amount: 36.64, direction: 'out' },
   { title: 'Netto', date: '2025-03-15', amount: 345.62, direction: 'out' },
