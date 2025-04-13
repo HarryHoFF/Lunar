@@ -15,11 +15,44 @@ export default function App() {
   const [error, setError] = useState('')
   const [balance, setBalance] = useState(8420.75)
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    { title: 'Starbucks', date: '2025-04-11', amount: 39.75, direction: 'out' },
-    { title: 'Galactic Payroll', date: '2025-04-10', amount: 17200, direction: 'in' },
-    { title: 'Lunar Rent', date: '2025-04-01', amount: 9000, direction: 'out' },
-  ])
+ const [transactions, setTransactions] = useState<Transaction[]>([
+  { title: 'Netto', date: '2025-03-18', amount: 156.79, direction: 'out' },
+  { title: 'Netto', date: '2025-03-27', amount: 36.64, direction: 'out' },
+  { title: 'Netto', date: '2025-03-15', amount: 345.62, direction: 'out' },
+  { title: 'Netto', date: '2025-03-09', amount: 177.93, direction: 'out' },
+  { title: 'Netto', date: '2025-03-28', amount: 485.26, direction: 'out' },
+  { title: 'Netto', date: '2025-03-26', amount: 118.4, direction: 'out' },
+  { title: 'Netto', date: '2025-03-20', amount: 291.18, direction: 'out' },
+  { title: 'Netto', date: '2025-03-13', amount: 566.13, direction: 'out' },
+  { title: 'Netto', date: '2025-04-03', amount: 414.29, direction: 'out' },
+  { title: 'Netto', date: '2025-03-22', amount: 43.96, direction: 'out' },
+  { title: 'Netto', date: '2025-03-25', amount: 579.62, direction: 'out' },
+  { title: 'Netto', date: '2025-04-01', amount: 259.3, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-28', amount: 164.52, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-08', amount: 401.74, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-09', amount: 295.88, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-20', amount: 379.61, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-23', amount: 518.35, direction: 'out' },
+  { title: 'Rema1000', date: '2025-04-04', amount: 140.56, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-31', amount: 232.48, direction: 'out' },
+  { title: 'Rema1000', date: '2025-03-27', amount: 542.49, direction: 'out' },
+  { title: 'Jem&Fix', date: '2025-03-25', amount: 345.79, direction: 'out' },
+  { title: 'Jem&Fix', date: '2025-03-14', amount: 492.15, direction: 'out' },
+  { title: 'Jem&Fix', date: '2025-04-05', amount: 112.17, direction: 'out' },
+  { title: 'Jem&Fix', date: '2025-03-30', amount: 558.95, direction: 'out' },
+  { title: 'Edeka', date: '2025-03-29', amount: 166.87, direction: 'out' },
+  { title: 'Penny', date: '2025-03-07', amount: 186.64, direction: 'out' },
+  { title: 'GooglePay', date: '2025-03-15', amount: 517.39, direction: 'out' },
+  { title: 'GooglePay', date: '2025-03-19', amount: 312.09, direction: 'out' },
+  { title: 'GooglePay', date: '2025-04-02', amount: 514.62, direction: 'out' },
+  { title: 'GooglePay', date: '2025-03-11', amount: 314.03, direction: 'out' },
+  { title: 'TSW Service', date: '2025-03-26', amount: 142.78, direction: 'out' },
+  { title: 'TSW Service', date: '2025-03-24', amount: 568.79, direction: 'out' },
+  { title: 'McDonald\'s', date: '2025-03-10', amount: 75.45, direction: 'out' },
+  { title: 'McDonald\'s', date: '2025-04-01', amount: 122.36, direction: 'out' },
+  { title: 'Burger King', date: '2025-03-16', amount: 348.17, direction: 'out' },
+  { title: 'Sunset Boulevard', date: '2025-03-13', amount: 165.92, direction: 'out' },
+])
   const [showAdmin, setShowAdmin] = useState(false)
   const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
     title: '',
