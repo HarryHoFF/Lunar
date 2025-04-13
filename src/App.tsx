@@ -92,7 +92,14 @@ export default function App() {
           </button>
         </div>
       ) : (
-        <div style={{ maxWidth: '600px', margin: '0 auto' }}>
+     <div
+  style={{
+    maxWidth: '100%',
+    margin: '0 auto',
+    padding: '1rem',
+    boxSizing: 'border-box'
+  }}
+>
           <div
             style={{
               background: '#4f46e5',
