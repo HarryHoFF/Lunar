@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-// Typen für Transaktionen
 interface Transaction {
   title: string
   date: string
@@ -17,22 +16,19 @@ export default function App() {
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [showAdmin, setShowAdmin] = useState(false)
-const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
-  title: '',
-  date: '',
-  amount: '',
-  direction: 'out',
-})
-  const [transfer, setTransfer] = useState({ to: '', iban: '', amount: '' })
-  const [confirmation, setConfirmation] = useState('')
-  const [filter, setFilter] = useState<'all' | 'in' | 'out'>('all')
+  const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
+    title: '',
+    date: '',
+    amount: '',
+    direction: 'out',
+  })
 
   const handleLogin = () => {
     if (pin === '1323') {
       setIsLoggedIn(true)
       setError('')
     } else {
-      setError('Forkert PIN')
+      setError('Incorrect PIN')
     }
   }
 
@@ -50,28 +46,6 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
     setNewTx({ title: '', date: '', amount: '', direction: 'out' })
   }
 
-  const sendTransfer = () => {
-    const amount = parseFloat(transfer.amount)
-    if (!transfer.to || !transfer.iban || isNaN(amount)) return
-    const date = new Date().toLocaleDateString('da-DK')
-    const tx: Transaction = {
-      title: `Overførsel til ${transfer.to}`,
-      date,
-      amount,
-      direction: 'out',
-    }
-    setTransactions([tx, ...transactions])
-    setBalance(balance - amount)
-    setConfirmation(`Overførsel sendt til ${transfer.to}`)
-    setTransfer({ to: '', iban: '', amount: '' })
-    setTimeout(() => setConfirmation(''), 4000)
-  }
-
-  const filteredTxs =
-    filter === 'all'
-      ? transactions
-      : transactions.filter((tx) => tx.direction === filter)
-
   return (
     <div
       style={{
@@ -87,7 +61,7 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
           <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Lunar Login</h2>
           <input
             type="text"
-            placeholder="Navn"
+            placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
             style={{ width: '100%', marginBottom: 8, padding: 8, borderRadius: 6 }}
@@ -104,14 +78,14 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
             onClick={handleLogin}
             style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
           >
-            Log ind
+            Log in
           </button>
         </div>
       ) : (
         <div>
           <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0' }}>
             <h1>Lunar</h1>
-            <p>Hej, {name}!</p>
+            <p>Hello, {name}!</p>
             <button
               onClick={() => setShowAdmin(!showAdmin)}
               style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', color: '#fff', fontSize: 20 }}
@@ -127,7 +101,7 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
                 type="number"
                 value={balance}
                 onChange={(e) => setBalance(parseFloat(e.target.value))}
-                placeholder="Kontostand"
+                placeholder="Balance"
                 style={{ width: '100%', marginBottom: 8, padding: 8 }}
               />
               <input
@@ -141,7 +115,7 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
                 type="text"
                 value={newTx.title}
                 onChange={(e) => setNewTx({ ...newTx, title: e.target.value })}
-                placeholder="Titel"
+                placeholder="Title"
                 style={{ width: '100%', marginBottom: 8, padding: 8 }}
               />
               <input
@@ -154,7 +128,7 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
                 type="number"
                 value={newTx.amount}
                 onChange={(e) => setNewTx({ ...newTx, amount: e.target.value })}
-                placeholder="Beløb"
+                placeholder="Amount"
                 style={{ width: '100%', marginBottom: 8, padding: 8 }}
               />
               <select
@@ -162,65 +136,28 @@ const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string
                 onChange={(e) => setNewTx({ ...newTx, direction: e.target.value as 'in' | 'out' })}
                 style={{ width: '100%', marginBottom: 8, padding: 8 }}
               >
-                <option value="out">Udgang</option>
-                <option value="in">Indgang</option>
+                <option value="out">Outgoing</option>
+                <option value="in">Incoming</option>
               </select>
               <button
                 onClick={addTransaction}
                 style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
               >
-                Tilføj transaktion
+                Add transaction
               </button>
             </div>
           )}
 
           <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginBottom: '1rem' }}>
-            <p style={{ fontSize: 14, color: '#aaa' }}>Primær konto</p>
+            <p style={{ fontSize: 14, color: '#aaa' }}>Primary account</p>
             <h2 style={{ margin: '0.5rem 0' }}>{balance.toLocaleString('da-DK', { style: 'currency', currency: 'DKK' })}</h2>
             <p style={{ fontSize: 12, color: '#777' }}>IBAN: {iban}</p>
           </div>
 
-          <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginBottom: '1rem' }}>
-            <h3>Ny overførsel</h3>
-            <input
-              placeholder="Modtager navn"
-              value={transfer.to}
-              onChange={(e) => setTransfer({ ...transfer, to: e.target.value })}
-              style={{ width: '100%', marginBottom: 8, padding: 8 }}
-            />
-            <input
-              placeholder="IBAN"
-              value={transfer.iban}
-              onChange={(e) => setTransfer({ ...transfer, iban: e.target.value })}
-              style={{ width: '100%', marginBottom: 8, padding: 8 }}
-            />
-            <input
-              placeholder="Beløb"
-              value={transfer.amount}
-              onChange={(e) => setTransfer({ ...transfer, amount: e.target.value })}
-              style={{ width: '100%', marginBottom: 8, padding: 8 }}
-            />
-            <button
-              onClick={sendTransfer}
-              style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
-            >
-              Send
-            </button>
-            {confirmation && (
-              <p style={{ marginTop: 8, color: '#4ade80' }}>✅ {confirmation}</p>
-            )}
-          </div>
-
-          <div style={{ marginBottom: '1rem' }}>
-            <button onClick={() => setFilter('all')} style={{ marginRight: 8 }}>Alle</button>
-            <button onClick={() => setFilter('in')} style={{ marginRight: 8 }}>Ind</button>
-            <button onClick={() => setFilter('out')}>Ud</button>
-          </div>
-
           <div>
-            <h3>Seneste transaktioner</h3>
+            <h3>Latest Transactions</h3>
             <ul style={{ listStyle: 'none', padding: 0 }}>
-              {filteredTxs.map((tx, i) => (
+              {transactions.map((tx, i) => (
                 <li
                   key={i}
                   style={{
