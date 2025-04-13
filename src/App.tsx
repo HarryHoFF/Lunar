@@ -1,4 +1,3 @@
-// Lunar RP Banking App - Clean Version (English, admin hidden under Signout menu)
 import { useState } from 'react'
 
 interface Transaction {
