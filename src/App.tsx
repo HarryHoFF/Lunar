@@ -20,6 +20,8 @@ export default function App() {
   ])
   const [showAdmin, setShowAdmin] = useState(false)
   const [newTx, setNewTx] = useState({ title: '', date: '', amount: '' })
+  const [transfer, setTransfer] = useState({ to: '', iban: '', amount: '' })
+  const [confirmation, setConfirmation] = useState('')
 
   const handleLogin = () => {
     if (pin === '1323') {
@@ -40,6 +42,22 @@ export default function App() {
     }
     setTransactions([tx, ...transactions])
     setNewTx({ title: '', date: '', amount: '' })
+  }
+
+  const sendTransfer = () => {
+    const amount = parseFloat(transfer.amount)
+    if (!transfer.to || !transfer.iban || isNaN(amount)) return
+    const date = new Date().toLocaleDateString('da-DK')
+    const tx: Transaction = {
+      title: `Overførsel til ${transfer.to}`,
+      date,
+      amount: -amount,
+    }
+    setTransactions([tx, ...transactions])
+    setBalance(balance - amount)
+    setConfirmation(`Overførsel sendt til ${transfer.to}`)
+    setTransfer({ to: '', iban: '', amount: '' })
+    setTimeout(() => setConfirmation(''), 4000)
   }
 
   return (
@@ -181,53 +199,6 @@ export default function App() {
                   style={{ width: '100%', marginBottom: '0.5rem' }}
                 />
               </div>
-              <div>
-                <label>Ny transaktion:</label>
-                <div
-                  style={{
-                    display: 'flex',
-                    gap: '0.5rem',
-                    marginTop: '0.25rem',
-                    flexWrap: 'wrap',
-                  }}
-                >
-                  <input
-                    placeholder="Titel"
-                    value={newTx.title}
-                    onChange={(e) =>
-                      setNewTx({ ...newTx, title: e.target.value })
-                    }
-                  />
-                  <input
-                    placeholder="Dato"
-                    value={newTx.date}
-                    onChange={(e) =>
-                      setNewTx({ ...newTx, date: e.target.value })
-                    }
-                  />
-                  <input
-                    placeholder="Beløb"
-                    value={newTx.amount}
-                    onChange={(e) =>
-                      setNewTx({ ...newTx, amount: e.target.value })
-                    }
-                  />
-                </div>
-                <button
-                  onClick={addTransaction}
-                  style={{
-                    marginTop: '0.5rem',
-                    background: '#4f46e5',
-                    color: 'white',
-                    border: 'none',
-                    padding: '0.5rem 1rem',
-                    borderRadius: '6px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  ➕ Tilføj
-                </button>
-              </div>
             </div>
           )}
 
@@ -258,6 +229,47 @@ export default function App() {
                 })}
               </p>
               <p style={{ fontSize: '0.75rem', color: '#777' }}>IBAN: {iban}</p>
+            </div>
+
+            <div style={{ marginBottom: '2rem' }}>
+              <h3>Ny overførsel</h3>
+              <input
+                placeholder="Modtager navn"
+                value={transfer.to}
+                onChange={(e) => setTransfer({ ...transfer, to: e.target.value })}
+                style={{ width: '100%', marginBottom: '0.5rem', padding: '0.5rem' }}
+              />
+              <input
+                placeholder="IBAN"
+                value={transfer.iban}
+                onChange={(e) => setTransfer({ ...transfer, iban: e.target.value })}
+                style={{ width: '100%', marginBottom: '0.5rem', padding: '0.5rem' }}
+              />
+              <input
+                placeholder="Beløb"
+                value={transfer.amount}
+                onChange={(e) => setTransfer({ ...transfer, amount: e.target.value })}
+                style={{ width: '100%', marginBottom: '0.5rem', padding: '0.5rem' }}
+              />
+              <button
+                onClick={sendTransfer}
+                style={{
+                  background: '#4f46e5',
+                  color: 'white',
+                  border: 'none',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '6px',
+                  cursor: 'pointer',
+                  width: '100%',
+                }}
+              >
+                Send
+              </button>
+              {confirmation && (
+                <p style={{ marginTop: '1rem', color: '#4ade80' }}>
+                  ✅ {confirmation}
+                </p>
+              )}
             </div>
           </div>
 
