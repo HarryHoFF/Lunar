@@ -87,15 +87,19 @@ const [transactions, setTransactions] = useState<Transaction[]>([
   }
 
   return (
-    <div
-      style={{
-        backgroundColor: '#0f0f0f',
-        minHeight: '100vh',
-        padding: '1.5rem',
-        fontFamily: 'Inter, sans-serif',
-        color: '#fff',
-      }}
-    >
+  <div
+  style={{
+    backgroundColor: '#0f0f0f',
+    minHeight: '100vh',
+    padding: '1.5rem',
+    fontFamily: 'Inter, sans-serif',
+    color: '#fff',
+    margin: 0,
+    overflowX: 'hidden',
+    boxSizing: 'border-box',
+    maxWidth: '100vw',
+  }}
+>
       {!isLoggedIn ? (
         <div style={{ maxWidth: 400, margin: '4rem auto', background: '#1a1a1a', padding: '2rem', borderRadius: 12 }}>
           <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Lunar Login</h2>
