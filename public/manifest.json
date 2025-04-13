@@ -1,6 +1,6 @@
 {
-  "name": "Lunar RP Banking",
-  "short_name": "LunarBank",
+  "name": "Lunar Lite Banking",
+  "short_name": "LunarLite",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",
