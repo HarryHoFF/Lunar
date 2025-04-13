@@ -12,9 +12,9 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance, setBalance] = useState(8420.75)
-  const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
-  const [transactions, setTransactions] = useState<Transaction[]>([
+  const [balance] = useState(8420.75)
+  const [iban] = useState('DK22 1234 5678 9101 1121')
+  const [transactions] = useState<Transaction[]>([
     { title: 'Rema1000', date: '2025-04-07', amount: 290.57, direction: 'out' },
     { title: 'Jem&Fix', date: '2025-04-07', amount: 562.11, direction: 'out' },
     { title: 'Netto', date: '2025-04-07', amount: 192.4, direction: 'out' },
@@ -54,13 +54,6 @@ export default function App() {
     { title: 'Edeka', date: '2025-03-08', amount: 363.57, direction: 'out' },
     { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' },
   ])
-  const [showAdmin, setShowAdmin] = useState(false)
-  const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
-    title: '',
-    date: '',
-    amount: '',
-    direction: 'out',
-  })
   const [showMenu, setShowMenu] = useState(false)
 
   const handleLogin = () => {
@@ -70,20 +63,6 @@ export default function App() {
     } else {
       setError('Incorrect PIN')
     }
-  }
-
-  const addTransaction = () => {
-    const amount = parseFloat(newTx.amount)
-    if (!newTx.title || !newTx.date || isNaN(amount)) return
-    const tx: Transaction = {
-      title: newTx.title,
-      date: newTx.date,
-      amount,
-      direction: newTx.direction,
-    }
-    setTransactions([tx, ...transactions])
-    setBalance((prev) => prev + (newTx.direction === 'in' ? amount : -amount))
-    setNewTx({ title: '', date: '', amount: '', direction: 'out' })
   }
 
   return (
@@ -126,16 +105,7 @@ export default function App() {
           </button>
         </div>
       ) : (
-        <div
-          style={{
-            width: '100%',
-            maxWidth: '100%',
-            overflowX: 'hidden',
-            margin: 0,
-            padding: 0,
-            boxSizing: 'border-box',
-          }}
-        >
+        <div>
           <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0', position: 'relative' }}>
             <h1>Lunar</h1>
             <p>Hello, {name}!</p>
@@ -147,33 +117,12 @@ export default function App() {
             </button>
             {showMenu && (
               <div style={{ position: 'absolute', top: 48, right: 16, background: '#222', borderRadius: 8, padding: '0.5rem' }}>
-                <button onClick={() => setShowAdmin(!showAdmin)} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
-                  Admin Panel
-                </button>
                 <button onClick={() => window.location.reload()} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
                   Sign out
                 </button>
               </div>
             )}
           </div>
-
-          {showAdmin && (
-            <div style={{ background: '#1f1f1f', padding: '1rem', marginBottom: '1rem' }}>
-              <h3>Admin Panel</h3>
-              <input type="number" value={balance} onChange={(e) => setBalance(parseFloat(e.target.value))} placeholder="Balance" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-              <input type="text" value={iban} onChange={(e) => setIban(e.target.value)} placeholder="IBAN" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-              <input type="text" value={newTx.title} onChange={(e) => setNewTx({ ...newTx, title: e.target.value })} placeholder="Title" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-              <input type="date" value={newTx.date} onChange={(e) => setNewTx({ ...newTx, date: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-              <input type="number" value={newTx.amount} onChange={(e) => setNewTx({ ...newTx, amount: e.target.value })} placeholder="Amount" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-              <select value={newTx.direction} onChange={(e) => setNewTx({ ...newTx, direction: e.target.value as 'in' | 'out' })} style={{ width: '100%', marginBottom: 8, padding: 8 }}>
-                <option value="out">Outgoing</option>
-                <option value="in">Incoming</option>
-              </select>
-              <button onClick={addTransaction} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>
-                Add transaction
-              </button>
-            </div>
-          )}
 
           <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginBottom: '1rem' }}>
             <p style={{ fontSize: 14, color: '#aaa' }}>Primary account</p>
