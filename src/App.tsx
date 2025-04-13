@@ -52,7 +52,7 @@ export default function App() {
     { title: 'Rema1000', date: '2025-03-09', amount: 181.55, direction: 'out' },
     { title: 'Penny', date: '2025-03-09', amount: 487.71, direction: 'out' },
     { title: 'Edeka', date: '2025-03-08', amount: 363.57, direction: 'out' },
-    { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' }
+    { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' },
   ])
   const [showAdmin, setShowAdmin] = useState(false)
   const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
@@ -91,13 +91,13 @@ export default function App() {
       style={{
         backgroundColor: '#0f0f0f',
         minHeight: '100vh',
-        padding: '1.5rem',
-        fontFamily: 'Inter, sans-serif',
-        color: '#fff',
+        padding: 0,
         margin: 0,
         overflowX: 'hidden',
+        width: '100%',
         boxSizing: 'border-box',
-        maxWidth: '100vw',
+        fontFamily: 'Inter, sans-serif',
+        color: '#fff',
       }}
     >
       {!isLoggedIn ? (
@@ -128,11 +128,12 @@ export default function App() {
       ) : (
         <div
           style={{
-            maxWidth: '100vw',
+            width: '100%',
+            maxWidth: '100%',
             overflowX: 'hidden',
-            boxSizing: 'border-box',
             margin: 0,
             padding: 0,
+            boxSizing: 'border-box',
           }}
         >
           <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0', position: 'relative' }}>
