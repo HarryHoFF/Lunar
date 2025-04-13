@@ -17,7 +17,12 @@ export default function App() {
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [showAdmin, setShowAdmin] = useState(false)
-  const [newTx, setNewTx] = useState({ title: '', date: '', amount: '', direction: 'out' })
+const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
+  title: '',
+  date: '',
+  amount: '',
+  direction: 'out',
+})
   const [transfer, setTransfer] = useState({ to: '', iban: '', amount: '' })
   const [confirmation, setConfirmation] = useState('')
   const [filter, setFilter] = useState<'all' | 'in' | 'out'>('all')
