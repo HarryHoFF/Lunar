@@ -89,11 +89,11 @@ export default function App() {
   return (
     <div
       style={{
-        backgroundColor: '#0f0f0f',
+        backgroundColor: '#000000',
         minHeight: '100vh',
         padding: '1.5rem',
         fontFamily: 'Inter, sans-serif',
-        color: '#fff',
+        color: '#000',
         margin: 0,
         overflowX: 'hidden',
         boxSizing: 'border-box',
@@ -101,7 +101,7 @@ export default function App() {
       }}
     >
       {!isLoggedIn ? (
-        <div style={{ maxWidth: 400, margin: '4rem auto', background: '#1a1a1a', padding: '2rem', borderRadius: 12 }}>
+        <div style={{ maxWidth: 400, margin: '4rem auto', background: '#000000', padding: '2rem', borderRadius: 12 }}>
           <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Lunar Login</h2>
           <input
             type="text"
@@ -120,7 +120,7 @@ export default function App() {
           {error && <p style={{ color: 'red', fontSize: 12 }}>{error}</p>}
           <button
             onClick={handleLogin}
-            style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
+            style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#000', border: 'none', borderRadius: 8 }}
           >
             Log in
           </button>
@@ -140,16 +140,16 @@ export default function App() {
             <p>Hello, {name}!</p>
             <button
               onClick={() => setShowMenu(!showMenu)}
-              style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', color: '#fff', fontSize: 20 }}
+              style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', color: '#000', fontSize: 20 }}
             >
               ⋮
             </button>
             {showMenu && (
               <div style={{ position: 'absolute', top: 48, right: 16, background: '#222', borderRadius: 8, padding: '0.5rem' }}>
-                <button onClick={() => setShowAdmin(!showAdmin)} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
+                <button onClick={() => setShowAdmin(!showAdmin)} style={{ color: '#000', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
                   Admin Panel
                 </button>
-                <button onClick={() => window.location.reload()} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
+                <button onClick={() => window.location.reload()} style={{ color: '#000', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
                   Sign out
                 </button>
               </div>
@@ -168,7 +168,7 @@ export default function App() {
                 <option value="out">Outgoing</option>
                 <option value="in">Incoming</option>
               </select>
-              <button onClick={addTransaction} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>
+              <button onClick={addTransaction} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#000', border: 'none', borderRadius: 8 }}>
                 Add transaction
               </button>
             </div>
@@ -195,7 +195,7 @@ export default function App() {
                   boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
                 }}>
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontWeight: 500, color: '#fff' }}>{tx.title}</span>
+                    <span style={{ fontWeight: 500, color: '#000' }}>{tx.title}</span>
                     <span style={{ fontSize: '0.75rem', color: '#888' }}>{tx.date}</span>
                   </div>
                   <div style={{
