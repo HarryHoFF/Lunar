@@ -14,7 +14,11 @@ export default function App() {
   const [error, setError] = useState('')
   const [balance, setBalance] = useState(8420.75)
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [transactions, setTransactions] = useState<Transaction[]>([
+    { title: 'Starbucks', date: '2025-04-11', amount: 39.75, direction: 'out' },
+    { title: 'Galactic Payroll', date: '2025-04-10', amount: 17200, direction: 'in' },
+    { title: 'Lunar Rent', date: '2025-04-01', amount: 9000, direction: 'out' },
+  ])
   const [showAdmin, setShowAdmin] = useState(false)
   const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
     title: '',
@@ -22,6 +26,7 @@ export default function App() {
     amount: '',
     direction: 'out',
   })
+  const [showMenu, setShowMenu] = useState(false)
 
   const handleLogin = () => {
     if (pin === '1323') {
@@ -83,15 +88,25 @@ export default function App() {
         </div>
       ) : (
         <div>
-          <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0' }}>
+          <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0', position: 'relative' }}>
             <h1>Lunar</h1>
             <p>Hello, {name}!</p>
             <button
-              onClick={() => setShowAdmin(!showAdmin)}
+              onClick={() => setShowMenu(!showMenu)}
               style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', color: '#fff', fontSize: 20 }}
             >
-              ⚙️
+              ⋮
             </button>
+            {showMenu && (
+              <div style={{ position: 'absolute', top: 48, right: 16, background: '#222', borderRadius: 8, padding: '0.5rem' }}>
+                <button onClick={() => setShowAdmin(!showAdmin)} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
+                  Admin Panel
+                </button>
+                <button onClick={() => window.location.reload()} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
+                  Sign out
+                </button>
+              </div>
+            )}
           </div>
 
           {showAdmin && (
