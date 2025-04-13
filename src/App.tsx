@@ -43,16 +43,25 @@ export default function App() {
   }
 
   return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
+    <div
+      style={{
+        backgroundColor: '#0f0f0f',
+        minHeight: '100vh',
+        padding: '1.5rem',
+        fontFamily: 'Inter, sans-serif',
+        color: '#fff',
+      }}
+    >
       {!isLoggedIn ? (
         <div
           style={{
             maxWidth: '400px',
             margin: '4rem auto',
             padding: '2rem',
-            background: '#f0f0f0',
+            background: '#1a1a1a',
             borderRadius: '12px',
-            boxShadow: '0 0 10px rgba(0,0,0,0.1)',
+            boxShadow: '0 0 15px rgba(0,0,0,0.2)',
+            color: '#fff',
           }}
         >
           <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>
@@ -63,17 +72,33 @@ export default function App() {
             placeholder="Navn"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            style={{ width: '100%', marginBottom: '0.5rem', padding: '0.5rem' }}
+            style={{
+              width: '100%',
+              marginBottom: '0.5rem',
+              padding: '0.5rem',
+              borderRadius: '6px',
+              border: '1px solid #333',
+              background: '#2a2a2a',
+              color: '#fff',
+            }}
           />
           <input
             type="password"
             placeholder="PIN"
             value={pin}
             onChange={(e) => setPin(e.target.value)}
-            style={{ width: '100%', marginBottom: '0.5rem', padding: '0.5rem' }}
+            style={{
+              width: '100%',
+              marginBottom: '0.5rem',
+              padding: '0.5rem',
+              borderRadius: '6px',
+              border: '1px solid #333',
+              background: '#2a2a2a',
+              color: '#fff',
+            }}
           />
           {error && (
-            <p style={{ color: 'red', fontSize: '0.8rem' }}>{error}</p>
+            <p style={{ color: '#f87171', fontSize: '0.8rem' }}>{error}</p>
           )}
           <button
             onClick={handleLogin}
@@ -92,14 +117,14 @@ export default function App() {
           </button>
         </div>
       ) : (
-     <div
-  style={{
-    maxWidth: '100%',
-    margin: '0 auto',
-    padding: '1rem',
-    boxSizing: 'border-box'
-  }}
->
+        <div
+          style={{
+            maxWidth: '100%',
+            margin: '0 auto',
+            padding: '1rem',
+            boxSizing: 'border-box',
+          }}
+        >
           <div
             style={{
               background: '#4f46e5',
@@ -132,9 +157,9 @@ export default function App() {
           {showAdmin && (
             <div
               style={{
-                background: '#eee',
+                background: '#1f1f1f',
                 padding: '1rem',
-                borderBottom: '1px solid #ccc',
+                borderBottom: '1px solid #333',
               }}
             >
               <h3>Admin Panel</h3>
@@ -158,7 +183,14 @@ export default function App() {
               </div>
               <div>
                 <label>Ny transaktion:</label>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    gap: '0.5rem',
+                    marginTop: '0.25rem',
+                    flexWrap: 'wrap',
+                  }}
+                >
                   <input
                     placeholder="Titel"
                     value={newTx.title}
@@ -200,18 +232,37 @@ export default function App() {
           )}
 
           <div style={{ padding: '1rem' }}>
-            <h2>Primær konto</h2>
-            <p style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>
-              {balance.toLocaleString('da-DK', {
-                style: 'currency',
-                currency: 'DKK',
-              })}
-            </p>
-            <p style={{ fontSize: '0.9rem', color: '#555' }}>IBAN: {iban}</p>
+            <div
+              style={{
+                background: 'linear-gradient(145deg, #1e1e1e, #2a2a2a)',
+                borderRadius: '1rem',
+                padding: '1.5rem',
+                boxShadow: '0 0 15px rgba(122, 90, 248, 0.3)',
+                marginBottom: '1.5rem',
+              }}
+            >
+              <p style={{ fontSize: '0.9rem', color: '#aaa' }}>
+                Primær konto
+              </p>
+              <p
+                style={{
+                  fontSize: '2rem',
+                  fontWeight: 600,
+                  margin: '0.5rem 0',
+                  color: '#fff',
+                }}
+              >
+                {balance.toLocaleString('da-DK', {
+                  style: 'currency',
+                  currency: 'DKK',
+                })}
+              </p>
+              <p style={{ fontSize: '0.75rem', color: '#777' }}>IBAN: {iban}</p>
+            </div>
           </div>
 
           <div style={{ padding: '1rem' }}>
-            <h3>Seneste transaktioner</h3>
+            <h3 style={{ marginBottom: '1rem' }}>Seneste transaktioner</h3>
             <ul style={{ listStyle: 'none', padding: 0 }}>
               {transactions.map((tx, i) => (
                 <li
@@ -219,20 +270,27 @@ export default function App() {
                   style={{
                     display: 'flex',
                     justifyContent: 'space-between',
-                    borderBottom: '1px solid #eee',
-                    padding: '0.5rem 0',
+                    alignItems: 'center',
+                    padding: '0.75rem 1rem',
+                    backgroundColor: '#1a1a1a',
+                    borderRadius: '10px',
+                    marginBottom: '0.75rem',
+                    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
                   }}
                 >
-                  <div>
-                    <strong>{tx.title}</strong>
-                    <div style={{ fontSize: '0.8rem', color: '#666' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontWeight: 500, color: '#fff' }}>
+                      {tx.title}
+                    </span>
+                    <span style={{ fontSize: '0.75rem', color: '#888' }}>
                       {tx.date}
-                    </div>
+                    </span>
                   </div>
                   <div
                     style={{
-                      color: tx.amount < 0 ? 'red' : 'green',
-                      fontWeight: 'bold',
+                      color: tx.amount < 0 ? '#f87171' : '#4ade80',
+                      fontWeight: 600,
+                      fontSize: '1rem',
                     }}
                   >
                     {tx.amount.toLocaleString('da-DK', {
