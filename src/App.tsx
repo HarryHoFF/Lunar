@@ -54,7 +54,6 @@ const [transactions, setTransactions] = useState<Transaction[]>([
   { title: 'Edeka', date: '2025-03-08', amount: 363.57, direction: 'out' },
   { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' }
 ]);
-])
   const [showAdmin, setShowAdmin] = useState(false)
   const [newTx, setNewTx] = useState<{ title: string; date: string; amount: string; direction: 'in' | 'out' }>({
     title: '',
