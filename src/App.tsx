@@ -29,7 +29,7 @@ export default function App() {
     { title: 'Netto', date: '2025-04-05', amount: 101.64, direction: 'out' },
     { title: 'Carbis Food', date: '2025-04-04', amount: 8340.0, direction: 'in' },
     { title: 'Haderslev Kommune', date: '2025-04-02', amount: 2000.0, direction: 'in' },
-    { title: 'Rema1000', date: '2025-04-02', amount: 98.73, direction: 'out' },
+    { title: 'Jette Diekmann', date: '2025-04-02', amount: 1000.00, direction: 'out' },
     { title: 'Netto', date: '2025-04-01', amount: 154.04, direction: 'out' },
     { title: 'Netto', date: '2025-03-31', amount: 303.89, direction: 'out' },
     { title: 'TSW Service', date: '2025-03-29', amount: 226.39, direction: 'out' },
