@@ -12,13 +12,19 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance, setBalance] = useState(8420.75)
+  const [balance, setBalance] = useState(125.75)
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
   const [showMenu, setShowMenu] = useState(false)
   const [showTransfer, setShowTransfer] = useState(false)
   const [activeTab, setActiveTab] = useState<'reg' | 'iban'>('reg')
   const [newTx, setNewTx] = useState({ title: '', amount: '' })
   const [transactions, setTransactions] = useState<Transaction[]>([
+    { title: 'Burger King', date: '2025-04-23', amount: 94.0, direction: 'out' },
+    { title: 'Petz', date: '2025-04-23', amount: 19.0, direction: 'out' },
+    { title: 'Netto', date: '2025-04-23', amount: 145.4, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 1500.0, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 2425.0, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 4425.0, direction: 'out' },
     { title: 'Rema1000', date: '2025-04-07', amount: 290.57, direction: 'out' },
     { title: 'Jem&Fix', date: '2025-04-07', amount: 562.11, direction: 'out' },
     { title: 'Netto', date: '2025-04-07', amount: 192.4, direction: 'out' },
