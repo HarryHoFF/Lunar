@@ -9,56 +9,30 @@ interface Transaction {
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [name] = useState('Gösta-Per Sievers')
-  const [showMenu, setShowMenu] = useState(false)
-  const [showTransferForm, setShowTransferForm] = useState(false)
-  const [activeTab, setActiveTab] = useState<'reg' | 'iban'>('reg')
   const [balance, setBalance] = useState(8420.75)
   const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
-  const [transactions, setTransactions] = useState<Transaction[]>(
-    [
-      { title: 'Rema1000', date: '2025-04-07', amount: 290.57, direction: 'out' },
-      { title: 'Jem&Fix', date: '2025-04-07', amount: 562.11, direction: 'out' },
-      { title: 'Netto', date: '2025-04-07', amount: 192.4, direction: 'out' },
-      { title: 'Netto', date: '2025-04-07', amount: 158.33, direction: 'out' },
-      { title: 'Jem&Fix', date: '2025-04-07', amount: 590.0, direction: 'out' },
-      { title: 'Jem&Fix', date: '2025-04-06', amount: 193.43, direction: 'out' },
-      { title: "McDonald's", date: '2025-04-05', amount: 260.59, direction: 'out' },
-      { title: 'Netto', date: '2025-04-05', amount: 195.24, direction: 'out' },
-      { title: 'Netto', date: '2025-04-05', amount: 101.64, direction: 'out' },
-      { title: 'Carbis Food', date: '2025-04-04', amount: 8340.0, direction: 'in' },
-      { title: 'Haderslev Kommune', date: '2025-04-02', amount: 2000.0, direction: 'in' },
-      { title: 'Rema1000', date: '2025-04-02', amount: 98.73, direction: 'out' },
-      { title: 'Netto', date: '2025-04-01', amount: 154.04, direction: 'out' },
-      { title: 'Netto', date: '2025-03-31', amount: 303.89, direction: 'out' },
-      { title: 'TSW Service', date: '2025-03-29', amount: 226.39, direction: 'out' },
-      { title: 'Netto', date: '2025-03-28', amount: 359.44, direction: 'out' },
-      { title: 'GooglePay', date: '2025-03-26', amount: 288.35, direction: 'out' },
-      { title: 'Netto', date: '2025-03-26', amount: 152.67, direction: 'out' },
-      { title: 'GooglePay', date: '2025-03-25', amount: 297.7, direction: 'out' },
-      { title: 'TSW Service', date: '2025-03-25', amount: 547.35, direction: 'out' },
-      { title: 'Rema1000', date: '2025-03-24', amount: 569.03, direction: 'out' },
-      { title: 'GooglePay', date: '2025-03-24', amount: 151.36, direction: 'out' },
-      { title: 'Rema1000', date: '2025-03-23', amount: 479.73, direction: 'out' },
-      { title: 'Netto', date: '2025-03-22', amount: 483.23, direction: 'out' },
-      { title: 'Rema1000', date: '2025-03-20', amount: 538.77, direction: 'out' },
-      { title: 'Netto', date: '2025-03-20', amount: 583.52, direction: 'out' },
-      { title: 'Netto', date: '2025-03-18', amount: 585.04, direction: 'out' },
-      { title: 'GooglePay', date: '2025-03-15', amount: 148.13, direction: 'out' },
-      { title: 'Netto', date: '2025-03-15', amount: 537.5, direction: 'out' },
-      { title: 'Burger King', date: '2025-03-14', amount: 380.93, direction: 'out' },
-      { title: 'Jem&Fix', date: '2025-03-13', amount: 364.56, direction: 'out' },
-      { title: 'Sunset Boulevard', date: '2025-03-13', amount: 536.71, direction: 'out' },
-      { title: 'GooglePay', date: '2025-03-11', amount: 270.0, direction: 'out' },
-      { title: "McDonald's", date: '2025-03-10', amount: 426.9, direction: 'out' },
-      { title: 'Rema1000', date: '2025-03-09', amount: 181.55, direction: 'out' },
-      { title: 'Penny', date: '2025-03-09', amount: 487.71, direction: 'out' },
-      { title: 'Edeka', date: '2025-03-08', amount: 363.57, direction: 'out' },
-      { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' },
-    ].sort((a, b) => b.date.localeCompare(a.date))
-  )
+  const [transactions, setTransactions] = useState<Transaction[]>([
+    { title: 'Rema1000', date: '2025-04-07', amount: 290.57, direction: 'out' },
+    { title: 'Carbis Food', date: '2025-04-04', amount: 8340.0, direction: 'in' },
+    { title: 'Haderslev Kommune', date: '2025-04-02', amount: 2000.0, direction: 'in' },
+    { title: 'Netto', date: '2025-03-22', amount: 483.23, direction: 'out' },
+  ])
+  const [showMenu, setShowMenu] = useState(false)
+  const [showForm, setShowForm] = useState(false)
+  const [formTab, setFormTab] = useState<'reg' | 'iban'>('reg')
+  const [formData, setFormData] = useState({
+    regNr: '',
+    accountNr: '',
+    iban: '',
+    bic: '',
+    title: '',
+    amount: '',
+    date: '',
+    direction: 'out' as 'in' | 'out'
+  })
 
   const handleLogin = () => {
     if (pin === '1323') {
@@ -69,42 +43,46 @@ export default function App() {
     }
   }
 
+  const addTransaction = () => {
+    const amount = parseFloat(formData.amount)
+    if (!formData.title || !formData.date || isNaN(amount)) return
+    const tx: Transaction = {
+      title: formData.title,
+      date: formData.date,
+      amount,
+      direction: formData.direction,
+    }
+    setTransactions([tx, ...transactions])
+    setBalance(prev => prev + (formData.direction === 'in' ? amount : -amount))
+    setFormData({
+      regNr: '',
+      accountNr: '',
+      iban: '',
+      bic: '',
+      title: '',
+      amount: '',
+      date: '',
+      direction: 'out'
+    })
+    setShowForm(false)
+  }
+
   return (
-    <div
-      style={{
-        backgroundColor: '#0f0f0f',
-        minHeight: '100vh',
-        padding: 0,
-        margin: 0,
-        overflowX: 'hidden',
-        width: '100%',
-        boxSizing: 'border-box',
-        fontFamily: 'Inter, sans-serif',
-        color: '#fff',
-      }}
-    >
+    <div style={{ backgroundColor: '#0f0f0f', color: '#fff', minHeight: '100vh', fontFamily: 'Inter, sans-serif', padding: 0, margin: 0, overflowX: 'hidden' }}>
       {!isLoggedIn ? (
         <div style={{ maxWidth: 400, margin: '4rem auto', background: '#1a1a1a', padding: '2rem', borderRadius: 12 }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Lunar Login</h2>
-          <input
-            type="password"
-            placeholder="PIN"
-            value={pin}
-            onChange={(e) => setPin(e.target.value)}
-            style={{ width: '100%', marginBottom: 8, padding: 8, borderRadius: 6 }}
-          />
+          <h2 style={{ textAlign: 'center' }}>Lunar Login</h2>
+          <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value)} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
+          <input type="password" placeholder="PIN" value={pin} onChange={e => setPin(e.target.value)} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
           {error && <p style={{ color: 'red', fontSize: 12 }}>{error}</p>}
-          <button
-            onClick={handleLogin}
-            style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
-          >
+          <button onClick={handleLogin} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>
             Log in
           </button>
         </div>
       ) : (
-        <div style={{ width: '100%', maxWidth: '100%', padding: '0 1rem' }}>
-          <div style={{ background: '#4f46e5', padding: '1rem', borderRadius: '12px 12px 0 0', position: 'relative' }}>
-            <h1 style={{ marginBottom: '0.25rem' }}>Lunar</h1>
+        <div style={{ padding: '1rem' }}>
+          <div style={{ background: '#4f46e5', padding: '1.5rem', borderRadius: '12px', position: 'relative' }}>
+            <h1>Lunar</h1>
             <p>Hello, {name}!</p>
             <button
               onClick={() => setShowMenu(!showMenu)}
@@ -119,98 +97,70 @@ export default function App() {
                 </button>
               </div>
             )}
-            <button
-              onClick={() => setShowTransferForm(!showTransferForm)}
-              style={{ marginTop: '1rem', padding: '0.5rem 1rem', background: '#fff', color: '#4f46e5', borderRadius: 8, fontWeight: 600, border: 'none' }}
-            >
-              Make Transfer
-            </button>
           </div>
 
-          {showTransferForm && (
-            <div style={{ background: '#1a1a1a', padding: '1rem', borderRadius: '0 0 12px 12px', marginTop: '-1px' }}>
+          <button onClick={() => setShowForm(!showForm)} style={{ marginTop: '1rem', width: '100%', padding: '1rem', background: '#1f1f1f', color: '#fff', borderRadius: 8 }}>
+            ➕ New Transaction
+          </button>
+
+          {showForm && (
+            <div style={{ marginTop: '1rem', background: '#1a1a1a', borderRadius: 12, padding: '1rem' }}>
               <div style={{ display: 'flex', marginBottom: '1rem' }}>
-                <button
-                  onClick={() => setActiveTab('reg')}
-                  style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    background: activeTab === 'reg' ? '#4f46e5' : '#333',
-                    color: '#fff',
-                    border: 'none',
-                  }}
-                >
-                  Reg/Account
+                <button onClick={() => setFormTab('reg')} style={{ flex: 1, background: formTab === 'reg' ? '#4f46e5' : '#333', color: '#fff', border: 'none', padding: '0.5rem' }}>
+                  Reg & Account
                 </button>
-                <button
-                  onClick={() => setActiveTab('iban')}
-                  style={{
-                    flex: 1,
-                    padding: '0.5rem',
-                    background: activeTab === 'iban' ? '#4f46e5' : '#333',
-                    color: '#fff',
-                    border: 'none',
-                  }}
-                >
-                  IBAN/BIC
+                <button onClick={() => setFormTab('iban')} style={{ flex: 1, background: formTab === 'iban' ? '#4f46e5' : '#333', color: '#fff', border: 'none', padding: '0.5rem' }}>
+                  IBAN & BIC
                 </button>
               </div>
-
-              {activeTab === 'reg' ? (
+              {formTab === 'reg' ? (
                 <>
-                  <input type="text" placeholder="Reg. number" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <input type="text" placeholder="Account number" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <input type="number" placeholder="Amount (DKK)" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <button style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>
-                    Send
-                  </button>
+                  <input placeholder="Reg. Nr." value={formData.regNr} onChange={(e) => setFormData({ ...formData, regNr: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
+                  <input placeholder="Account Nr." value={formData.accountNr} onChange={(e) => setFormData({ ...formData, accountNr: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
                 </>
               ) : (
                 <>
-                  <input type="text" placeholder="IBAN" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <input type="text" placeholder="BIC" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <input type="number" placeholder="Amount (DKK)" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <button style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>
-                    Send
-                  </button>
+                  <input placeholder="IBAN" value={formData.iban} onChange={(e) => setFormData({ ...formData, iban: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
+                  <input placeholder="BIC" value={formData.bic} onChange={(e) => setFormData({ ...formData, bic: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
                 </>
               )}
+              <input placeholder="Title" value={formData.title} onChange={(e) => setFormData({ ...formData, title: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
+              <input type="date" value={formData.date} onChange={(e) => setFormData({ ...formData, date: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
+              <input type="number" placeholder="Amount" value={formData.amount} onChange={(e) => setFormData({ ...formData, amount: e.target.value })} style={{ width: '100%', marginBottom: 8, padding: 8 }} />
+              <select value={formData.direction} onChange={(e) => setFormData({ ...formData, direction: e.target.value as 'in' | 'out' })} style={{ width: '100%', marginBottom: 8, padding: 8 }}>
+                <option value="out">Outgoing</option>
+                <option value="in">Incoming</option>
+              </select>
+              <button onClick={addTransaction} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>
+                Submit
+              </button>
             </div>
           )}
 
-          <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginTop: '1rem' }}>
+          <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginTop: '1.5rem' }}>
             <p style={{ fontSize: 14, color: '#aaa' }}>Primary account</p>
             <h2 style={{ margin: '0.5rem 0' }}>{balance.toLocaleString('da-DK', { style: 'currency', currency: 'DKK' })}</h2>
             <p style={{ fontSize: 12, color: '#777' }}>IBAN: {iban}</p>
           </div>
 
-          <div style={{ marginTop: '1rem' }}>
-            <h3 style={{ marginBottom: '0.75rem' }}>Latest Transactions</h3>
+          <div>
+            <h3 style={{ marginTop: '1.5rem' }}>Latest Transactions</h3>
             <ul style={{ listStyle: 'none', padding: 0 }}>
               {transactions.map((tx, i) => (
                 <li key={i} style={{
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center',
                   padding: '0.75rem 1rem',
                   backgroundColor: '#1a1a1a',
-                  borderRadius: '10px',
+                  borderRadius: 10,
                   marginBottom: '0.75rem',
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
                 }}>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontWeight: 500, color: '#fff' }}>{tx.title}</span>
-                    <span style={{ fontSize: '0.75rem', color: '#888' }}>{tx.date}</span>
+                  <div>
+                    <strong>{tx.title}</strong>
+                    <div style={{ fontSize: '0.75rem', color: '#aaa' }}>{tx.date}</div>
                   </div>
-                  <div style={{
-                    color: tx.direction === 'out' ? '#f87171' : '#4ade80',
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                  }}>
-                    {(tx.direction === 'out' ? '-' : '+') + tx.amount.toLocaleString('da-DK', {
-                      style: 'currency',
-                      currency: 'DKK',
-                    })}
+                  <div style={{ color: tx.direction === 'out' ? '#f87171' : '#4ade80', fontWeight: 600 }}>
+                    {(tx.direction === 'out' ? '-' : '+') + tx.amount.toLocaleString('da-DK', { style: 'currency', currency: 'DKK' })}
                   </div>
                 </li>
               ))}
