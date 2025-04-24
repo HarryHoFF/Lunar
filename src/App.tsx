@@ -12,7 +12,7 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance] = useState(185.75)
+  const [balance] = useState(35.75)
   const [iban] = useState('DK22 68 7001 0151 1421')
   const [transactions] = useState<Transaction[]>([
     { title: 'Netto', date: '2025-04-24', amount: 76.00, direction: 'out' },
