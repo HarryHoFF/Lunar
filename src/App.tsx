@@ -12,19 +12,15 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance, setBalance] = useState(125.75)
-  const [iban, setIban] = useState('DK22 1234 5678 9101 1121')
-  const [showMenu, setShowMenu] = useState(false)
-  const [showTransfer, setShowTransfer] = useState(false)
-  const [activeTab, setActiveTab] = useState<'reg' | 'iban'>('reg')
-  const [newTx, setNewTx] = useState({ title: '', amount: '' })
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    { title: 'Burger King', date: '2025-04-23', amount: 94.0, direction: 'out' },
-    { title: 'Petz', date: '2025-04-23', amount: 19.0, direction: 'out' },
-    { title: 'Netto', date: '2025-04-23', amount: 145.4, direction: 'out' },
-    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 1500.0, direction: 'out' },
-    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 2425.0, direction: 'out' },
-    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 4425.0, direction: 'out' },
+  const [balance] = useState(185.75)
+  const [iban] = useState('DK22 68 7001 0151 1421')
+  const [transactions] = useState<Transaction[]>([
+    { title: 'Burger King', date: '2025-04-16', amount: 85.00, direction: 'out' },
+    { title: 'Petz', date: '2025-04-23', amount: 19.00, direction: 'out' },
+    { title: 'Netto', date: '2025-04-23', amount: 154.50, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 1500.00, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 2425.00, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-04-16', amount: 4425.00, direction: 'out' },
     { title: 'Rema1000', date: '2025-04-07', amount: 290.57, direction: 'out' },
     { title: 'Jem&Fix', date: '2025-04-07', amount: 562.11, direction: 'out' },
     { title: 'Netto', date: '2025-04-07', amount: 192.4, direction: 'out' },
@@ -34,9 +30,9 @@ export default function App() {
     { title: "McDonald's", date: '2025-04-05', amount: 260.59, direction: 'out' },
     { title: 'Netto', date: '2025-04-05', amount: 195.24, direction: 'out' },
     { title: 'Netto', date: '2025-04-05', amount: 101.64, direction: 'out' },
+    { title: 'Jette Diekmann', date: '2025-04-02', amount: 1000.00, direction: 'out' },
     { title: 'Carbis Food', date: '2025-04-04', amount: 8340.0, direction: 'in' },
     { title: 'Haderslev Kommune', date: '2025-04-02', amount: 2000.0, direction: 'in' },
-    { title: 'Rema1000', date: '2025-04-02', amount: 98.73, direction: 'out' },
     { title: 'Netto', date: '2025-04-01', amount: 154.04, direction: 'out' },
     { title: 'Netto', date: '2025-03-31', amount: 303.89, direction: 'out' },
     { title: 'TSW Service', date: '2025-03-29', amount: 226.39, direction: 'out' },
@@ -62,8 +58,9 @@ export default function App() {
     { title: 'Rema1000', date: '2025-03-09', amount: 181.55, direction: 'out' },
     { title: 'Penny', date: '2025-03-09', amount: 487.71, direction: 'out' },
     { title: 'Edeka', date: '2025-03-08', amount: 363.57, direction: 'out' },
-    { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' }
+    { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' },
   ])
+  const [showMenu, setShowMenu] = useState(false)
 
   const handleLogin = () => {
     if (pin === '1323') {
@@ -74,41 +71,48 @@ export default function App() {
     }
   }
 
-  const handleTransfer = () => {
-    const amount = parseFloat(newTx.amount)
-    if (!newTx.title || isNaN(amount)) return
-    const today = new Date().toISOString().slice(0, 10)
-    setTransactions([{ title: newTx.title, amount, date: today, direction: 'out' }, ...transactions])
-    setBalance((prev) => prev - amount)
-    setNewTx({ title: '', amount: '' })
-    setShowTransfer(false)
-  }
-
   return (
-    <div style={{ background: '#0f0f0f', minHeight: '100vh', padding: '1rem', color: '#fff' }}>
+    <div
+      style={{
+        backgroundColor: '#0f0f0f',
+        minHeight: '100vh',
+        padding: 0,
+        margin: 0,
+        overflowX: 'hidden',
+        width: '100%',
+        boxSizing: 'border-box',
+        fontFamily: 'Inter, sans-serif',
+        color: '#fff',
+      }}
+    >
       {!isLoggedIn ? (
         <div style={{ maxWidth: 400, margin: '4rem auto', background: '#1a1a1a', padding: '2rem', borderRadius: 12 }}>
-          <h2 style={{ textAlign: 'center' }}>Lunar Login</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Lunar Login</h2>
           <input
             type="text"
             placeholder="Name"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            style={{ width: '100%', marginBottom: 10, padding: 10 }}
+            style={{ width: '100%', marginBottom: 8, padding: 8, borderRadius: 6 }}
           />
           <input
             type="password"
             placeholder="PIN"
             value={pin}
             onChange={(e) => setPin(e.target.value)}
-            style={{ width: '100%', marginBottom: 10, padding: 10 }}
+            style={{ width: '100%', marginBottom: 8, padding: 8, borderRadius: 6 }}
           />
-          {error && <p style={{ color: 'red' }}>{error}</p>}
-          <button onClick={handleLogin} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>Log in</button>
+          {error && <p style={{ color: 'red', fontSize: 12 }}>{error}</p>}
+          <button
+            onClick={handleLogin}
+            style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
+          >
+            Log in
+          </button>
         </div>
       ) : (
         <div>
-          <div style={{ background: '#4f46e5', padding: '1rem', borderRadius: '12px 12px 0 0', marginBottom: '1rem' }}>
+          <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0', position: 'relative' }}>
             <h1>Lunar</h1>
             <p>Hello, {name}!</p>
             <button
@@ -118,75 +122,47 @@ export default function App() {
               ⋮
             </button>
             {showMenu && (
-              <div style={{ position: 'absolute', top: 48, right: 16, background: '#222', padding: '0.5rem', borderRadius: 8 }}>
-                <button onClick={() => window.location.reload()} style={{ color: '#fff', border: 'none', background: 'none' }}>Sign out</button>
+              <div style={{ position: 'absolute', top: 48, right: 16, background: '#222', borderRadius: 8, padding: '0.5rem' }}>
+                <button onClick={() => window.location.reload()} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
+                  Sign out
+                </button>
               </div>
             )}
-            <button onClick={() => setShowTransfer(true)} style={{ marginTop: '1rem', background: '#fff', color: '#4f46e5', padding: '0.5rem 1rem', borderRadius: 8 }}>
-              ➕ New Transfer
-            </button>
           </div>
 
-          {showTransfer && (
-            <div style={{ background: '#1f1f1f', padding: '1rem', borderRadius: 8, marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', marginBottom: '1rem' }}>
-                <button onClick={() => setActiveTab('reg')} style={{ flex: 1, padding: 8, background: activeTab === 'reg' ? '#4f46e5' : '#333', color: '#fff', border: 'none' }}>Reg/Account</button>
-                <button onClick={() => setActiveTab('iban')} style={{ flex: 1, padding: 8, background: activeTab === 'iban' ? '#4f46e5' : '#333', color: '#fff', border: 'none' }}>IBAN/BIC</button>
-              </div>
-
-              {activeTab === 'reg' ? (
-                <>
-                  <input placeholder="Reg. Number" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <input placeholder="Account Number" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                </>
-              ) : (
-                <>
-                  <input placeholder="IBAN" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                  <input placeholder="BIC" style={{ width: '100%', marginBottom: 8, padding: 8 }} />
-                </>
-              )}
-
-              <input
-                placeholder="Name"
-                value={newTx.title}
-                onChange={(e) => setNewTx({ ...newTx, title: e.target.value })}
-                style={{ width: '100%', marginBottom: 8, padding: 8 }}
-              />
-              <input
-                placeholder="Amount"
-                type="number"
-                value={newTx.amount}
-                onChange={(e) => setNewTx({ ...newTx, amount: e.target.value })}
-                style={{ width: '100%', marginBottom: 8, padding: 8 }}
-              />
-              <button onClick={handleTransfer} style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}>Send</button>
-            </div>
-          )}
+          <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginBottom: '1rem' }}>
+            <p style={{ fontSize: 14, color: '#aaa' }}>Primary account</p>
+            <h2 style={{ margin: '0.5rem 0' }}>{balance.toLocaleString('da-DK', { style: 'currency', currency: 'DKK' })}</h2>
+            <p style={{ fontSize: 12, color: '#777' }}>IBAN: {iban}</p>
+          </div>
 
           <div>
             <h3>Latest Transactions</h3>
             <ul style={{ listStyle: 'none', padding: 0 }}>
               {transactions.map((tx, i) => (
                 <li key={i} style={{
-                  background: '#1a1a1a',
-                  marginBottom: 8,
-                  padding: '1rem',
-                  borderRadius: 8,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '0.75rem 1rem',
+                  backgroundColor: '#1a1a1a',
+                  borderRadius: '10px',
+                  marginBottom: '0.75rem',
+                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
                 }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div>
-                      <strong>{tx.title}</strong>
-                      <div style={{ fontSize: '0.75rem', color: '#aaa' }}>{tx.date}</div>
-                    </div>
-                    <div style={{ color: tx.direction === 'in' ? 'lightgreen' : 'tomato' }}>
-                      {(tx.direction === 'out' ? '-' : '+') + tx.amount.toLocaleString('da-DK', {
-                        style: 'currency',
-                        currency: 'DKK',
-                      })}
-                    </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <span style={{ fontWeight: 500, color: '#fff' }}>{tx.title}</span>
+                    <span style={{ fontSize: '0.75rem', color: '#888' }}>{tx.date}</span>
                   </div>
-                  <div style={{ marginTop: '0.5rem', fontSize: '0.75rem', color: '#888' }}>
-                    Purpose: Placeholder text for purpose
+                  <div style={{
+                    color: tx.direction === 'out' ? '#f87171' : '#4ade80',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                  }}>
+                    {(tx.direction === 'out' ? '-' : '+') + tx.amount.toLocaleString('da-DK', {
+                      style: 'currency',
+                      currency: 'DKK',
+                    })}
                   </div>
                 </li>
               ))}
