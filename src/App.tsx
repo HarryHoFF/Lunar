@@ -104,72 +104,48 @@ export default function App() {
             onChange={(e) => setPin(e.target.value)}
             style={{ width: '100%', marginBottom: 8, padding: 8, borderRadius: 6 }}
           />
-          {error && <p style={{ color: 'red', fontSize: 12 }}>{error}</p>}
+          {error && <p style={{ color: 'salmon' }}>{error}</p>}
           <button
             onClick={handleLogin}
-            style={{ width: '100%', padding: 10, background: '#4f46e5', color: '#fff', border: 'none', borderRadius: 8 }}
+            style={{
+              width: '100%',
+              padding: 10,
+              backgroundColor: '#4CAF50',
+              color: 'white',
+              border: 'none',
+              borderRadius: 6,
+              cursor: 'pointer',
+              marginTop: 10,
+            }}
           >
-            Log in
+            Login
           </button>
         </div>
       ) : (
-        <div>
-          <div style={{ background: '#4f46e5', padding: '1rem 1.5rem', borderRadius: '12px 12px 0 0', position: 'relative' }}>
-            <h1>Lunar</h1>
-            <p>Hello, {name}!</p>
-            <button
-              onClick={() => setShowMenu(!showMenu)}
-              style={{ position: 'absolute', top: 16, right: 16, background: 'transparent', color: '#fff', fontSize: 20 }}
+        <div style={{ padding: '1rem' }}>
+          <h2 style={{ textAlign: 'center' }}>Willkommen, {name}</h2>
+          <p style={{ textAlign: 'center' }}>Kontostand: {balance.toFixed(2)} DKK</p>
+          <p style={{ textAlign: 'center' }}>IBAN: {iban}</p>
+
+          <h3 style={{ marginTop: '2rem' }}>Transaktionen</h3>
+          {transactions.map((tx, index) => (
+            <div
+              key={index}
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                padding: '0.5rem 0',
+                borderBottom: '1px solid #333',
+                textDecoration: tx.title === 'Ines Ehlerts' ? 'line-through' : 'none',
+              }}
             >
-              ⋮
-            </button>
-            {showMenu && (
-              <div style={{ position: 'absolute', top: 48, right: 16, background: '#222', borderRadius: 8, padding: '0.5rem' }}>
-                <button onClick={() => window.location.reload()} style={{ color: '#fff', background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem 0.5rem' }}>
-                  Sign out
-                </button>
-              </div>
-            )}
-          </div>
-
-          <div style={{ background: '#1e1e1e', borderRadius: 12, padding: '1rem', marginBottom: '1rem' }}>
-            <p style={{ fontSize: 14, color: '#aaa' }}>Primary account</p>
-            <h2 style={{ margin: '0.5rem 0' }}>{balance.toLocaleString('da-DK', { style: 'currency', currency: 'DKK' })}</h2>
-            <p style={{ fontSize: 12, color: '#777' }}>IBAN: {iban}</p>
-          </div>
-
-          <div>
-            <h3>Latest Transactions</h3>
-            <ul style={{ listStyle: 'none', padding: 0 }}>
-              {transactions.map((tx, i) => (
-                <li key={i} style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '0.75rem 1rem',
-                  backgroundColor: '#1a1a1a',
-                  borderRadius: '10px',
-                  marginBottom: '0.75rem',
-                  boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-                }}>
-                  <div style={{ display: 'flex', flexDirection: 'column' }}>
-                    <span style={{ fontWeight: 500, color: '#fff' }}>{tx.title}</span>
-                    <span style={{ fontSize: '0.75rem', color: '#888' }}>{tx.date}</span>
-                  </div>
-                  <div style={{
-                    color: tx.direction === 'out' ? '#f87171' : '#4ade80',
-                    fontWeight: 600,
-                    fontSize: '1rem',
-                  }}>
-                    {(tx.direction === 'out' ? '-' : '+') + tx.amount.toLocaleString('da-DK', {
-                      style: 'currency',
-                      currency: 'DKK',
-                    })}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <span>{tx.title}</span>
+              <span>{tx.date}</span>
+              <span style={{ color: tx.direction === 'in' ? 'lightgreen' : 'salmon' }}>
+                {tx.direction === 'out' ? '-' : '+'}{tx.amount.toFixed(2)} DKK
+              </span>
+            </div>
+          ))}
         </div>
       )}
     </div>
