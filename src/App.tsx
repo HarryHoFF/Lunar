@@ -65,6 +65,20 @@ export default function App() {
     { title: 'Netto', date: '2025-03-07', amount: 241.61, direction: 'out' },
   ])
   const [showMenu, setShowMenu] = useState(false)
+  const [showTransferForm, setShowTransferForm] = useState(false)
+  const [activeTab, setActiveTab] = useState<'domestic' | 'international'>('domestic')
+  const [domesticTransfer, setDomesticTransfer] = useState({
+    name: '',
+    regNr: '',
+    accountNr: '',
+    amount: ''
+  })
+  const [internationalTransfer, setInternationalTransfer] = useState({
+    name: '',
+    iban: '',
+    bic: '',
+    amount: ''
+  })
 
   const handleLogin = () => {
     if (pin === '1323') {
@@ -73,6 +87,20 @@ export default function App() {
     } else {
       setError('Incorrect PIN')
     }
+  }
+
+  const handleDomesticTransfer = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Hier würde die Überweisungslogik implementiert werden
+    alert(`Domestic transfer submitted: ${JSON.stringify(domesticTransfer)}`)
+    setShowTransferForm(false)
+  }
+
+  const handleInternationalTransfer = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Hier würde die Überweisungslogik implementiert werden
+    alert(`International transfer submitted: ${JSON.stringify(internationalTransfer)}`)
+    setShowTransferForm(false)
   }
 
   return (
@@ -138,7 +166,229 @@ export default function App() {
             <p style={{ fontSize: 14, color: '#aaa' }}>Primary account</p>
             <h2 style={{ margin: '0.5rem 0' }}>{balance.toLocaleString('da-DK', { style: 'currency', currency: 'DKK' })}</h2>
             <p style={{ fontSize: 12, color: '#777' }}>IBAN: {iban}</p>
+            
+            <button 
+              onClick={() => setShowTransferForm(true)}
+              style={{
+                width: '100%',
+                padding: '10px',
+                marginTop: '15px',
+                backgroundColor: '#4f46e5',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer'
+              }}
+            >
+              New Transfer
+            </button>
           </div>
+
+          {showTransferForm && (
+            <div style={{ 
+              position: 'fixed', 
+              top: 0, 
+              left: 0, 
+              right: 0, 
+              bottom: 0, 
+              backgroundColor: 'rgba(0,0,0,0.8)', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              zIndex: 1000
+            }}>
+              <div style={{ 
+                backgroundColor: '#1a1a1a', 
+                padding: '20px', 
+                borderRadius: '12px', 
+                width: '90%', 
+                maxWidth: '500px'
+              }}>
+                <div style={{ display: 'flex', marginBottom: '20px' }}>
+                  <button 
+                    onClick={() => setActiveTab('domestic')}
+                    style={{
+                      flex: 1,
+                      padding: '10px',
+                      backgroundColor: activeTab === 'domestic' ? '#4f46e5' : '#333',
+                      color: 'white',
+                      border: 'none',
+                      borderTopLeftRadius: '8px',
+                      borderBottomLeftRadius: '8px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    Domestic
+                  </button>
+                  <button 
+                    onClick={() => setActiveTab('international')}
+                    style={{
+                      flex: 1,
+                      padding: '10px',
+                      backgroundColor: activeTab === 'international' ? '#4f46e5' : '#333',
+                      color: 'white',
+                      border: 'none',
+                      borderTopRightRadius: '8px',
+                      borderBottomRightRadius: '8px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    International
+                  </button>
+                </div>
+
+                {activeTab === 'domestic' ? (
+                  <form onSubmit={handleDomesticTransfer}>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Recipient Name</label>
+                      <input
+                        type="text"
+                        value={domesticTransfer.name}
+                        onChange={(e) => setDomesticTransfer({...domesticTransfer, name: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Registration Number</label>
+                      <input
+                        type="text"
+                        value={domesticTransfer.regNr}
+                        onChange={(e) => setDomesticTransfer({...domesticTransfer, regNr: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Account Number</label>
+                      <input
+                        type="text"
+                        value={domesticTransfer.accountNr}
+                        onChange={(e) => setDomesticTransfer({...domesticTransfer, accountNr: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Amount</label>
+                      <input
+                        type="number"
+                        value={domesticTransfer.amount}
+                        onChange={(e) => setDomesticTransfer({...domesticTransfer, amount: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button 
+                        type="submit"
+                        style={{
+                          flex: 1,
+                          padding: '10px',
+                          backgroundColor: '#4f46e5',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Send
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => setShowTransferForm(false)}
+                        style={{
+                          flex: 1,
+                          padding: '10px',
+                          backgroundColor: '#333',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <form onSubmit={handleInternationalTransfer}>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Recipient Name</label>
+                      <input
+                        type="text"
+                        value={internationalTransfer.name}
+                        onChange={(e) => setInternationalTransfer({...internationalTransfer, name: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>IBAN</label>
+                      <input
+                        type="text"
+                        value={internationalTransfer.iban}
+                        onChange={(e) => setInternationalTransfer({...internationalTransfer, iban: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>BIC</label>
+                      <input
+                        type="text"
+                        value={internationalTransfer.bic}
+                        onChange={(e) => setInternationalTransfer({...internationalTransfer, bic: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ marginBottom: '15px' }}>
+                      <label style={{ display: 'block', marginBottom: '5px', fontSize: '14px' }}>Amount</label>
+                      <input
+                        type="number"
+                        value={internationalTransfer.amount}
+                        onChange={(e) => setInternationalTransfer({...internationalTransfer, amount: e.target.value})}
+                        style={{ width: '100%', padding: '8px', borderRadius: '6px', backgroundColor: '#333', color: 'white', border: 'none' }}
+                        required
+                      />
+                    </div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <button 
+                        type="submit"
+                        style={{
+                          flex: 1,
+                          padding: '10px',
+                          backgroundColor: '#4f46e5',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Send
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => setShowTransferForm(false)}
+                        style={{
+                          flex: 1,
+                          padding: '10px',
+                          backgroundColor: '#333',
+                          color: 'white',
+                          border: 'none',
+                          borderRadius: '8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            </div>
+          )}
 
           <div>
             <h3>Latest Transactions</h3>
