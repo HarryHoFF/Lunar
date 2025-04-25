@@ -218,7 +218,7 @@ export default function App() {
                       cursor: 'pointer'
                     }}
                   >
-                    Domestic
+                    Regular
                   </button>
                   <button 
                     onClick={() => setActiveTab('international')}
