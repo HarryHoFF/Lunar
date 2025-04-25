@@ -136,18 +136,4 @@ export default function App() {
                 justifyContent: 'space-between',
                 padding: '0.5rem 0',
                 borderBottom: '1px solid #333',
-                textDecoration: tx.title === 'Ines Ehlerts' ? 'line-through' : 'none',
-              }}
-            >
-              <span>{tx.title}</span>
-              <span>{tx.date}</span>
-              <span style={{ color: tx.direction === 'in' ? 'lightgreen' : 'salmon' }}>
-                {tx.direction === 'out' ? '-' : '+'}{tx.amount.toFixed(2)} DKK
-              </span>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  )
-}
+                textDecoration: tx.title === 'Ines Ehlerts' ? 'line-through' : 'none
