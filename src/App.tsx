@@ -12,9 +12,13 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance] = useState(8025.75)
+  const [balance] = useState(2602.75)
   const [iban] = useState('DK02 6695 2000 7458 58')
   const [transactions] = useState<Transaction[]>([
+    { title: 'Ines Ehlerts', date: '2025-05-02', amount: 4850.00, direction: 'out' },
+    { title: 'Netto', date: '2025-05-01', amount: 155.00, direction: 'out' },
+    { title: "McDonald's", date: '2025-04-30', amount: 170.50, direction: 'out' },
+    { title: 'Sunset Boulevard', date: '2025-04-29', amount: 248.00, direction: 'out' },
     { title: 'Carbis Food', date: '2025-04-25', amount: 7980.0, direction: 'in' },
     { title: 'Ines Ehlerts', date: '2025-04-25', amount: 8350.00, direction: 'out' },
     { title: 'Netto', date: '2025-04-24', amount: 76.00, direction: 'out' },
