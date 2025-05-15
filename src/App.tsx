@@ -12,9 +12,10 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance] = useState(17.50)
+  const [balance] = useState(5517.50)
   const [iban] = useState('DK02 6695 2000 7458 58')
   const [transactions] = useState<Transaction[]>([
+    { title: 'MobilePay', date: '2025-05-15', amount: 5500.00, direction: 'in' },
     { title: 'Netto', date: '2025-05-12', amount: 135.00, direction: 'out' },
     { title: 'Rema1000', date: '2025-05-11', amount: 147.00, direction: 'out' },
     { title: 'OK', date: '2025-05-11', amount: 148.00, direction: 'out' },
