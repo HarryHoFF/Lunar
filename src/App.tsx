@@ -20,7 +20,7 @@ export default function App() {
     { title: 'Sunset Boulevard', date: '2025-05-21', amount: 248.00, direction: 'out' }, 
     { title: 'Rema1000', date: '2025-05-20', amount: 378.00, direction: 'out' },
     { title: 'Netto', date: '2025-05-19', amount: 298, direction: 'out' },
-    { title: 'Carbis Food', date: '2025-04-18', amount: 7980.0, direction: 'in' },
+    { title: 'Carbis Food', date: '2025-05-18', amount: 7980.0, direction: 'in' },
     { title: 'Netto', date: '2025-05-18', amount: 127.00, direction: 'out' },
     { title: 'MobilePay', date: '2025-05-15', amount: 5500.00, direction: 'in' },
     { title: 'Netto', date: '2025-05-12', amount: 135.00, direction: 'out' },
