@@ -12,9 +12,10 @@ export default function App() {
   const [name, setName] = useState('')
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-  const [balance] = useState(41.50)
+  const [balance] = useState(8841.50)
   const [iban] = useState('DK02 6695 2000 7458 58')
   const [transactions] = useState<Transaction[]>([
+    { title: 'Carbis Food', date: '2025-06-02', amount: 7980.0, direction: 'in' },
     { title: 'Siemes Schuhcenter', date: '2025-05-24', amount: 112.65, direction: 'out' },
     { title: 'Bukop KG', date: '2025-05-24', amount: 301.40, direction: 'out' },
     { title: 'Wikinger Tank', date: '2025-05-24', amount: 128.35, direction: 'out' },
