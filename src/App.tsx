@@ -19,7 +19,7 @@ export default function App() {
     { title: 'Siemes Schuhcenter', date: '2025-05-24', amount: 112.65, direction: 'out' },
     { title: 'Bukop KG', date: '2025-05-24', amount: 301.40, direction: 'out' },
     { title: 'Wikinger Tank', date: '2025-05-24', amount: 128.35, direction: 'out' },
-    { title: 'Ines Ehlerts', date: '2025-05-24', amount: 4850.00, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-05-24 (01)', amount: 4850.00, direction: 'out' },
     { title: 'Rema1000', date: '2025-05-23', amount: 689.00, direction: 'out' },
     { title: 'Ines Ehlerts', date: '2025-05-22', amount: 380.00, direction: 'out' },
     { title: 'Sunset Boulevard', date: '2025-05-21', amount: 248.00, direction: 'out' }, 
