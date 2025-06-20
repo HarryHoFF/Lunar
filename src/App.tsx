@@ -15,7 +15,7 @@ export default function App() {
   const [balance] = useState(10921.50)
   const [iban] = useState('DK02 6695 2000 7458 58')
   const [transactions] = useState<Transaction[]>([
-    { title: 'Ine s Ehlerts', date: '2025-06-20', amount: 4850.00, direction: 'out' },
+    { title: 'Ines Ehlerts', date: '2025-06-20', amount: 4850.00, direction: 'out' },
     { title: 'Carbis Food', date: '2025-06-16', amount: 7980.0, direction: 'in' },
     { title: 'Ines Ehlerts (undeployed)', date: '2025-06-06', amount: 380.00, direction: 'out' },
     { title: 'Ines Ehlerts (undeployed)', date: '2025-06-06', amount: 4850.00, direction: 'out' },
